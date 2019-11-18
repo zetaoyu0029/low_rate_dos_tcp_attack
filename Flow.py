@@ -4,7 +4,13 @@ from mininet.util import dumpNodeConnections
 from mininet.log import setLogLevel
 
 class ExperimentTopo(Topo):
-    "Single switch connected to n hosts."
+
+    # attacker
+    #         \
+    #          s1 ---- s2 ---- receiver
+    #         /
+    # sender
+    
     def build(self):
         s1 = self.addSwitch('s1')
         s2 = self.addSwitch('s2')
