@@ -5,9 +5,6 @@ from datetime import datetime
 
 time_str = datetime.now().strftime("%y-%m-%d--%H:%M")
 
-p1 = subprocess.Popen("./http/generator.py --dir ./http/Random_objects", shell=True)
-p1.communicate()
-
 root_dir = './Expr-%s/' % time_str
 output_dir = root_dir + '/http'
 
