@@ -246,4 +246,4 @@ def main():
 
 if __name__ == '__main__':
   lg.setLogLevel('warning')
-
+  main()
