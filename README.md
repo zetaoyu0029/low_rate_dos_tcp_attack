@@ -35,3 +35,6 @@ The result `res_all.png` is located at `\Expr-xx-xx-xx--xx\rto...`.
 ## How to run with different parameters
 
 Open `run.py` and modify the values in the loop condition.
+`n_connections` is the number of tcp connections.
+`minRTO` is minRTO.
+`period` is the inter-attack period.
