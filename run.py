@@ -29,7 +29,7 @@ for n_connections in {1}:
                                     ), shell=True)
             p.communicate()
             time.sleep(5)
-            normalized_throughput_data.append(read_throughput2(output_dir))
+            normalized_throughput_data.append(read_throughput(output_dir))
             period_data.append(period)
         output_dir = root_dir + '/rto-min-%f-tcp_n-%d/' % (minRTO, n_connections)
         plot_throughput(xdata=period_data, ydata=normalized_throughput_data, output_path=output_dir + 'res_all.png')
