@@ -58,13 +58,6 @@ parser.add_argument('--output', '-d',
                     default="results",
                     required=True)
 
-
-if not os.path.exists(args.output):
-  os.makedirs(args.output)
-  opt = open("%s/options" % (args.output, ), 'w')
-  print >> opt, json.dumps(vars(args), sort_keys=True, indent=4, separators=(',', ': '))
-  opt.close()
-
 # Topology to be instantiated in Mininet
 class MyTopo(Topo):
   def __init__(self, switch_bw, switch_delay, host_bw, queue_size):
