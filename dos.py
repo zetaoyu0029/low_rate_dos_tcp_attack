@@ -159,7 +159,7 @@ def run_tcp(net, n):
     os.system('killall ' + iperf)
 
 def execution(net, n):
-  print("Start attack with period %s, burst %s under %s simultaneous TCP(s)\n" % (args.period, burst, args.tcpNum))
+  print("Running with period %s, burst %s, %s TCP link(s)\n" % (args.period, burst, args.tcpNum))
   alice = net.getNodeByName('alice')
   alice.popen("ip route change 10.0.0.0/8 dev %s rto_min %s scope link src %s proto kernel" %
               ('alice-eth0', args.minRTO, alice.IP()), shell=True).communicate()
@@ -169,7 +169,7 @@ def execution(net, n):
   throughput = calculate_throughput(30)
   with open('%s/output.txt' % args.output, 'w') as f:
     f.write(str(throughput))
-  print("TCP Throughput: %f Mbits\n" % (throughput, ))
+  print("Reference Throughput: %f Mbits\n" % (throughput, ))
 
   attack.kill()
 
