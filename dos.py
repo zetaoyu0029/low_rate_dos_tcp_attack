@@ -137,7 +137,7 @@ def run_udp(net):
   attacker = net.getNodeByName('attacker')
   faker = net.getNodeByName('faker')
   run_receiver(faker)
-  return attacker.popen(['python', 'udp_send.py', faker.IP(), '5001', str(burst), str(args.period)])
+  return attacker.popen(['python', 'attacker.py', faker.IP(), '5001', str(burst), str(args.period)])
   
 def run_tcp(net, n):
 
@@ -152,7 +152,7 @@ def run_tcp(net, n):
           (iperf, receiver.IP(), 5001, 3600, 'bic'), shell=True)
     sleep(10)
     t = calculate_throughput(3)
-    print("Regular TCP Throughput: %f Mbits\n" % (t, ))
+    print("Throughput with Attack Off: %f Mbits\n" % (t, ))
     t = float(t/0.9)
     if t >= float(netBw):
       break
@@ -169,7 +169,7 @@ def execution(net, n):
   throughput = calculate_throughput(30)
   with open('%s/output.txt' % args.output, 'w') as f:
     f.write(str(throughput))
-  print("Reference Throughput: %f Mbits\n" % (throughput, ))
+  print("Throughput with Attack On: %f Mbits\n" % (throughput, ))
 
   attack.kill()
 
