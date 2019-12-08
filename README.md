@@ -1,6 +1,6 @@
-###Instructions
+### Instructions
 
-#####0. Create a new EC2 instance (Ubuntu 18.04)
+##### 0. Create a new EC2 instance (Ubuntu 18.04)
 
 ##### 1. Clone this repo
 
