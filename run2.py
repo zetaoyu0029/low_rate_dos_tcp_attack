@@ -4,6 +4,7 @@ from plot import *
 from datetime import datetime
 
 time_str = datetime.now().strftime("%y-%m-%d--%H:%M")
+root_dir = './Expr-%s/' % time_str
 
 for n_connections in {1}:
     for minRTO in range(1000, 1300, 100):
