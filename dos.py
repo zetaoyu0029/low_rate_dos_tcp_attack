@@ -57,8 +57,19 @@ parser.add_argument('--output', '-d',
                     action="store",
                     default="results",
                     required=True)
-
+# HTTP test
+parser.add_argument('--http',
+                    dest="http",
+                    action='store_true',
+                    default=False,
+                    required=False)
 args = parser.parse_args()
+
+if not os.path.exists(args.output):
+  os.makedirs(args.output)
+  opt = open("%s/options" % (args.output, ), 'w')
+  print >> opt, json.dumps(vars(args), sort_keys=True, indent=4, separators=(',', ': '))
+  opt.close()
 
 # Topology to be instantiated in Mininet
 class MyTopo(Topo):
@@ -172,7 +183,7 @@ def main():
   net.start()
   dumpNodeConnections(net.hosts)
   net.pingAll()
-
+  
   execution(net, args.tcpNum)
 
   os.system('killall ' + iperf)
