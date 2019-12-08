@@ -11,17 +11,6 @@ BOTTLENECK_BYTE_RATE = 1.4
 
 def read_throughput(path):
 
-    path += 'ss-hGR'
-    with open(path, 'r') as f:
-        data = map(lambda x: x.split(','), f.readlines())
-        data = filter(lambda x: len(x) > 1, data)
-
-    throughput = (float(data[-1][1]) - float(data[0][1])) / (float(data[-1][0]) - float(data[0][0]))
-
-    return [throughput / BOTTLENECK_BYTE_RATE]
-
-def read_throughput2(path):
-
     path += 'output.txt'
     with open(path, 'r') as f:
         line = f.read()
