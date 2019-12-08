@@ -57,6 +57,7 @@ parser.add_argument('--output', '-d',
                     action="store",
                     default="results",
                     required=True)
+args = parser.parse_args()
 
 # Topology to be instantiated in Mininet
 class MyTopo(Topo):
