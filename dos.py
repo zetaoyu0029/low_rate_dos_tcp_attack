@@ -10,6 +10,7 @@ from mininet.util import dumpNodeConnections
 from subprocess import Popen, PIPE
 from time import sleep, time
 from argparse import ArgumentParser
+from util.helper import stdev, avg
 from collections import defaultdict 
 
 import sys
@@ -57,7 +58,19 @@ parser.add_argument('--output', '-d',
                     action="store",
                     default="results",
                     required=True)
+# HTTP test
+parser.add_argument('--http',
+                    dest="http",
+                    action='store_true',
+                    default=False,
+                    required=False)
 args = parser.parse_args()
+
+if not os.path.exists(args.output):
+  os.makedirs(args.output)
+  opt = open("%s/options" % (args.output, ), 'w')
+  print >> opt, json.dumps(vars(args), sort_keys=True, indent=4, separators=(',', ': '))
+  opt.close()
 
 # Topology to be instantiated in Mininet
 class MyTopo(Topo):
@@ -129,6 +142,7 @@ def run_udp(net):
   
 def run_tcp(net, n):
 
+
   t = 0.0
   while t < float(netBw):
     receiver = net.getNodeByName('bob')
@@ -160,6 +174,53 @@ def execution(net, n):
 
   attack.kill()
 
+# def download(net, objs):
+#     bob = net.getNodeByName('bob')
+#     alice = net.getNodeByName('alice')
+
+#     # Start download
+#     processes = []
+#     for obj in objs:
+#       cmd = "curl -o /dev/null -s -w %%{time_total} %s/http/Random_objects/%sPackages" % (alice.IP(), obj)
+#       processes += [bob.popen(cmd, shell=True)]
+
+#     # Waiting for each to stop
+#     output = []
+#     for p in processes:
+#       output += [float(p.communicate()[0])]
+
+#     return (output)
+
+# def measure(net, objs, flag):
+#   lengths = []
+#   for i in range(10):
+#     lengths += [download(net, objs)]
+#     sleep(3)
+#   res = []
+#   if flag is True:
+#     res = [avg(x) for x in zip(*lengths)]
+#   else:
+#     res = [x for x in zip(*lengths)]
+#   return res
+
+# # calculate basic communication
+# def test_http(net):
+#     # Obtain Test data
+#     sizes = range (100, 1000, 5)
+#     test_set = []
+#     for i in xrange(30):
+#       test_set += [random.choice(sizes)]
+
+#     # Get base and attacked throughput to calculate normalization
+#     print("Calculate baseline\n")
+#     baseline = measure(net, test_set, True)
+#     print("Attack HTTP flow\n")
+#     attacker = net.getNodeByName('attacker')
+#     faker = net.getNodeByName('faker')
+#     p = attacker.popen(['python', 'udp_send.py', faker.IP(), '5001', str(args.burst), str(period)])
+#     attack = measure(net, test_set, False)
+#     p.kill()
+
 def main():
 
   # start run and attack
@@ -170,7 +231,10 @@ def main():
   net.start()
   dumpNodeConnections(net.hosts)
   net.pingAll()
-  
+
+  # if args.http:
+  #   test_http(net)  # for test only
+  # else:
   execution(net, args.tcpNum)
 
   os.system('killall ' + iperf)
@@ -183,3 +247,4 @@ def main():
 if __name__ == '__main__':
   lg.setLogLevel('warning')
   main()
+
