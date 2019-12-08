@@ -12,6 +12,7 @@ cd low_rate_dos_tcp_attack/
 ##### 2. Setup the environment
 
 ```bash
+chmod 777 setup.sh
 sudo ./setup.sh
 ```
 
