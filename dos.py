@@ -10,7 +10,6 @@ from mininet.util import dumpNodeConnections
 from subprocess import Popen, PIPE
 from time import sleep, time
 from argparse import ArgumentParser
-from util.helper import stdev, avg
 from collections import defaultdict 
 
 import sys
