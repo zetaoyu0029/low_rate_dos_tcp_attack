@@ -1,8 +1,8 @@
 ## Instructions
-
+### Authors: Zetao Yu, Xichen Tan, Zimeng Zhuang, Yibing Lyu
 ### 0. Create a new EC2 instance (Ubuntu 18.04)
 
-### 1. Clone this repo
+### 1. Clone this repo to AWS EC2 instance
 
 ```bash
 git clone https://github.com/zetaoyu0029/low_rate_dos_tcp_attack
