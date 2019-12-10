@@ -4,35 +4,36 @@ import sys
 import socket
 from time import time, sleep
 
-UDP_IP = sys.argv[1]
-UDP_PORT = int(sys.argv[2])
+FAKER_IP = sys.argv[1]
+FAKER_PORT = int(sys.argv[2])
 BURST = float(sys.argv[3])
 INTERVAL = float(sys.argv[4])
+RATE = 15 * 1024 * 1024.
+INITIAL_SLEEP_TIME = 0.9
+MESSAGE = '0' * 1440 * 8
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+faker_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sleep(INITIAL_SLEEP_TIME)
 
-MESSAGE = '1' * 1440
-
-if False:
-  start = time()
-  while time() - start < 5:
-    sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-
-rate = 15 * 1024 * 1024.
-sleep(0.9)
+bits = len(MESSAGE)
+pass_time = time()
+avg_rate = bits / pass_time
+start_time = time()
 next_start_time = time()
-while True:
-  next_start_time += INTERVAL
-  start = time()
-  bits = 0
-  while time() - start < BURST:
-    sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
-    bits += len(MESSAGE) * 8
-    time_pass = (time() - start)
-    if bits / time_pass > rate:
-      next_time = bits / rate
-      sleep(next_time - time_pass)
 
-  sleep_to = next_start_time - time()
-  if sleep_to > 0:
-    sleep(sleep_to)
+while True:
+
+  bits = 0
+  start_time = time()
+
+  while time() - start_time < BURST:
+    faker_socket.sendto(MESSAGE, (FAKER_IP, FAKER_PORT))
+    bits = bits + len(MESSAGE)
+    pass_time = time() - start_time
+    avg_rate = bits / pass_time
+    if avg_rate > RATE:
+      sleep(bits / RATE - pass_time)
+
+  next_start_time = next_start_time + INTERVAL
+  if next_start_time > time():
+    sleep(next_start_time - time())
